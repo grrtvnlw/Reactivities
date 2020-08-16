@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { List } from "semantic-ui-react";
+import React, { useState, useEffect, Fragment } from "react";
+import { List, Container } from "semantic-ui-react";
 import axios from "axios";
 import "semantic-ui-css/semantic.min.css";
 import { IActivity } from "../models/activity";
@@ -11,20 +11,22 @@ const App = () => {
   useEffect(() => {
     axios
       .get<IActivity[]>("http://localhost:5000/api/activities")
-      .then(response => {
-        setActivities(response.data)
+      .then((response) => {
+        setActivities(response.data);
       });
   }, []);
 
   return (
-    <div>
+    <Fragment>
       <NavBar />
-      <List>
-        {activities.map((activity) => (
-          <List.Item key={activity.id}>{activity.title}</List.Item>
-        ))}
-      </List>
-    </div>
+      <Container style={{marginTop: '7em'}}>
+        <List>
+          {activities.map((activity) => (
+            <List.Item key={activity.id}>{activity.title}</List.Item>
+          ))}
+        </List>
+      </Container>
+    </Fragment>
   );
 };
 
