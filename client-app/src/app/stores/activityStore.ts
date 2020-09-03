@@ -37,12 +37,12 @@ class ActivityStore {
       })
       console.log(error);
     }
-  }
+  };
 
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
     if (activity) {
-      this.selectActivity = activity;
+      this.activity = activity;
     } else {
       this.loadingInitial = true;
       try {
@@ -58,7 +58,7 @@ class ActivityStore {
         console.log(error);
       }
     }
-  }
+  };
 
   getActivity = (id: string) => {
     return this.activityRegistry.get(id);
