@@ -9,6 +9,7 @@ import ActivityForm from "../../features/activities/form/ActivityForm";
 import ActivityDetails from "../../features/activities/details/ActivityDetails";
 import "semantic-ui-css/semantic.min.css";
 import NotFound from "./NotFound";
+import { ToastContainer } from "react-toastify";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         path={"/(.+)"}
         render={() => (
           <Fragment>
+            <ToastContainer position='bottom-right' />
             <NavBar />
             <Container style={{ marginTop: "7em" }}>
               <Switch>
