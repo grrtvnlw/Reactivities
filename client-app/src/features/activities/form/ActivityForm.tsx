@@ -8,6 +8,8 @@ import { RouteComponentProps } from "react-router-dom";
 import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../../app/common/form/TextInput";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import SelectInput from "../../../app/common/form/SelectInput";
+import { category } from "../../../app/common/form/options/categoryOptions";
 
 interface DetailParams {
   id: string;
@@ -83,41 +85,42 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
             render={({ handleSubmit }) => (
               <Form onSubmit={handleSubmit}>
                 <Field
+                  component={TextInput}
                   name="title"
                   placeholder="Title"
                   value={activity.title}
-                  component={TextInput}
                 />
                 <Field
+                  component={TextAreaInput}
                   name="description"
                   placeholder="Description"
                   value={activity.description}
                   row={3}
-                  component={TextAreaInput}
                 />
                 <Field
+                  component={SelectInput}
+                  options={category}
                   name="category"
                   placeholder="Category"
                   value={activity.category}
-                  component={TextInput}
                 />
                 <Field
+                  component={TextInput}
                   name="date"
                   placeholder="Date"
                   value={activity.date}
-                  component={TextInput}
                 />
                 <Field
+                  component={TextInput}
                   name="city"
                   placeholder="City"
                   value={activity.city}
-                  component={TextInput}
                 />
                 <Field
+                  component={TextInput}
                   name="venue"
                   placeholder="Venue"
                   value={activity.venue}
-                  component={TextInput}
                 />
                 <Button
                   loading={submitting}
