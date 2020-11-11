@@ -13,6 +13,10 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Application.Interfaces;
 using Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API
 {
@@ -45,12 +49,29 @@ namespace API
           {
             cfg.RegisterValidatorsFromAssemblyContaining<Create>();
           });
+      // services.AddMvc()
+      //     .AddFluentValidation(cfg =>
+      //     cfg.RegisterValidatorsFromAssemblyContaining<Create>())
+      //     .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
       var builder = services.AddIdentityCore<AppUser>();
       var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
       identityBuilder.AddEntityFrameworkStores<DataContext>();
       identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
-      services.AddAuthentication();
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(opt =>
+        {
+          opt.TokenValidationParameters = new TokenValidationParameters
+          {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = key,
+            ValidateAudience = false,
+            ValidateIssuer = false
+          };
+        });
+
       services.AddScoped<IJwtGenerator, JwtGenerator>();
     }
 
@@ -65,10 +86,10 @@ namespace API
 
       // app.UseHttpsRedirection();
 
+      app.UseRouting();
       app.UseCors("CorsPolicy");
 
-      app.UseRouting();
-
+      app.UseAuthentication();
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
