@@ -52,7 +52,7 @@ namespace API
       services.AddDbContext<DataContext>(opt =>
       {
         opt.UseLazyLoadingProxies();
-        opt.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+        opt.UseMySql("Server=localhost; Database=reactivities; Uid=appuser; Pwd=Pa$$w0rd");
       });
 
       ConfigureServices(services);
